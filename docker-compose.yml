@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongo:
+    image: mongo:7
+    container_name: notes-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - notes-network
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: notes-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/notes-app
+      - PORT=5000
+    depends_on:
+      - mongo
+    networks:
+      - notes-network
+
+  # Frontend
+  frontend:
+    build: ./frontend
+    container_name: notes-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - notes-network
+
+# Define volumes
+volumes:
+  mongo-data:
+
+# Define networks
+networks:
+  notes-network:
+    driver: bridge
