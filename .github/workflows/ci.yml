@@ -25,5 +25,5 @@ jobs:
     needs: [frontend, backend]
     steps:
       - uses: actions/checkout@v4
-      - run: docker-compose build
+      - run: docker compose build
       
