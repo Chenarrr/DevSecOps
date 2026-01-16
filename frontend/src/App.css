@@ -5,7 +5,6 @@
 
 h1 {
   text-align: center;
-  margin-bottom: 20px;
 }
 
 .note-form {
@@ -20,32 +19,19 @@ h1 {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #444;
+  border: none;
   border-radius: 4px;
   background: #333;
   color: #fff;
 }
 
-.form-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.form-buttons button {
+.note-form button {
+  background: #4a90d9;
+  color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.form-buttons button[type="submit"] {
-  background: #4a90d9;
-  color: white;
-}
-
-.form-buttons button[type="button"] {
-  background: #666;
-  color: white;
 }
 
 .notes-list {
@@ -61,38 +47,20 @@ h1 {
 }
 
 .note-card h3 {
-  margin: 0 0 10px 0;
   color: #4a90d9;
+  margin: 0 0 10px 0;
 }
 
 .note-card p {
-  margin: 0 0 10px 0;
   color: #ccc;
+  margin: 0 0 10px 0;
 }
 
-.note-actions {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.note-actions button {
+.note-card button {
+  background: #d94a4a;
+  color: white;
   padding: 5px 15px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.note-actions button:first-child {
-  background: #4a90d9;
-  color: white;
-}
-
-.note-actions button:last-child {
-  background: #d94a4a;
-  color: white;
-}
-
-.note-card small {
-  color: #888;
 }

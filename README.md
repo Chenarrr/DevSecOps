@@ -1,124 +1,40 @@
-# 📝 Notes App
+# Notes App
 
-A full-stack notes application built with React, Express, and MongoDB. Containerized with Docker for easy deployment.
+A simple notes app to practice Docker and DevOps.
 
-## 🛠️ Tech Stack
+## What I Used
 
-**Frontend:**
-- React 19
-- Vite
-- Axios
+- React (frontend)
+- Express + MongoDB (backend)
+- Docker + Docker Compose
+- GitHub Actions for CI/CD
 
-**Backend:**
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
+## How to Run
 
-**DevOps:**
-- Docker
-- Docker Compose
-- GitHub Actions CI/CD
-
-## 📁 Project Structure
-
-```
-notes-app/
-├── frontend/           # React frontend
-│   ├── src/
-│   ├── Dockerfile
-│   └── nginx.conf
-├── backend/            # Express API
-│   ├── server.js
-│   └── Dockerfile
-├── docker-compose.yml  # Container orchestration
-└── .github/
-    └── workflows/
-        └── ci.yml      # CI/CD pipeline
-```
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 20+
-- Docker & Docker Compose
-- Git
-
-### Run with Docker (Recommended)
+Make sure you have Docker installed, then:
 
 ```bash
-# Clone the repository
-git clone <your-repo-url>
-cd notes-app
-
-# Start all services
 docker-compose up --build
-
-# Access the app
-# Frontend: http://localhost:3000
-# Backend API: http://localhost:5000/api/notes
 ```
 
-### Run Locally (Development)
+Open http://localhost:3000 in your browser.
 
-**Backend:**
-```bash
-cd backend
-npm install
-npm run dev
-```
+## API Routes
 
-**Frontend:**
-```bash
-cd frontend
-npm install
-npm run dev
-```
+- `GET /api/notes` - get all notes
+- `POST /api/notes` - create a note
+- `DELETE /api/notes/:id` - delete a note
 
-## 🔌 API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/notes` | Get all notes |
-| POST | `/api/notes` | Create a note |
-| GET | `/api/notes/:id` | Get single note |
-| PUT | `/api/notes/:id` | Update a note |
-| DELETE | `/api/notes/:id` | Delete a note |
-
-## 🐳 Docker Commands
+## Useful Commands
 
 ```bash
-# Build and start containers
-docker-compose up --build
+# start the app
+docker-compose up
 
-# Run in background
-docker-compose up -d
-
-# Stop containers
+# stop the app
 docker-compose down
 
-# View logs
-docker-compose logs -f
-
-# Rebuild specific service
-docker-compose build --no-cache frontend
+# rebuild after changes
+docker-compose build --no-cache
 ```
 
-## 🔄 CI/CD Pipeline
-
-This project uses GitHub Actions for continuous integration:
-
-- ✅ Triggers on push to main branch
-- ✅ Installs dependencies
-- ✅ Builds frontend
-- ✅ Builds Docker images
-- ✅ Verifies containers work
-
-## 📝 Environment Variables
-
-See `.env.example` for required environment variables.
-
-## 👤 Author
-
-Built as a DevOps portfolio project.

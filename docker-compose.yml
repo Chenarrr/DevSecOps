@@ -1,7 +1,4 @@
-version: '3.8'
-
 services:
-  # MongoDB Database
   mongo:
     image: mongo:7
     container_name: notes-mongodb
@@ -13,7 +10,7 @@ services:
     networks:
       - notes-network
 
-  # Backend API
+
   backend:
     build: ./backend
     container_name: notes-backend
@@ -28,7 +25,6 @@ services:
     networks:
       - notes-network
 
-  # Frontend
   frontend:
     build: ./frontend
     container_name: notes-frontend
@@ -40,11 +36,11 @@ services:
     networks:
       - notes-network
 
-# Define volumes
+
 volumes:
   mongo-data:
 
-# Define networks
+
 networks:
   notes-network:
     driver: bridge
