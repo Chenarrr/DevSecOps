@@ -30,7 +30,7 @@ jobs:
       - name: Push to Docker Hub
         if: github.ref == 'refs/heads/main'
         run: |
-          echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
           docker tag devsecops-frontend chenarrr/devops:frontend
           docker tag devsecops-backend chenarrr/devops:backend
           docker push chenarrr/devops:frontend
