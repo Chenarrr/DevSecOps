@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './App.css'
 
+// Use window.location to build API URL dynamically
+const API_URL = `${window.location.protocol}//${window.location.hostname}:5000/api`
+
 function App() {
   // State for notes list and form inputs
   const [notes, setNotes] = useState([])
@@ -15,14 +18,14 @@ function App() {
 
   // Get all notes from API
   const getNotes = async () => {
-    const response = await axios.get('http://localhost:5000/api/notes')
+    const response = await axios.get(`${API_URL}/notes`)
     setNotes(response.data)
   }
 
   // Add a new note
   const addNote = async (e) => {
     e.preventDefault()
-    await axios.post('http://localhost:5000/api/notes', { title, content })
+    await axios.post(`${API_URL}/notes`, { title, content })
     setTitle('')
     setContent('')
     getNotes()
@@ -30,18 +33,10 @@ function App() {
 
   // Delete a note
   const deleteNote = async (id) => {
-    await axios.delete(`http://localhost:5000/api/notes/${id}`)
+    await axios.delete(`${API_URL}/notes/${id}`)
     getNotes()
   }
 
-
-
-
-
-
-
-
-  
   return (
     <div className="App">
       <h1>Notes App</h1>
