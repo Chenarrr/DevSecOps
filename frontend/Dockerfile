@@ -1,9 +1,20 @@
-FROM node:20-alpine
+# Stage 1: Build the React app
+FROM node:22-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 COPY . .
 RUN npm run build
-RUN npm install -g serve
+
+# Stage 2: Serve with nginx
+FROM nginx:1.27-alpine
+
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
-CMD ["serve", "-s", "dist", "-l", "80"]
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:80/ || exit 1
+
+RUN apk add --no-cache curl

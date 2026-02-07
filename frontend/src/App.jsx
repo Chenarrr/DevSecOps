@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './App.css'
 
-// Use window.location to build API URL dynamically
-const API_URL = `${window.location.protocol}//${window.location.hostname}:5000/api`
+const API_URL = '/api'
 
 function App() {
   // State for notes list and form inputs
