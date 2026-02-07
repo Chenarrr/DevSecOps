@@ -48,7 +48,7 @@ function App() {
           required
         />
         <textarea
-          placeholder="Content"
+          placeholder="Content here..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
@@ -58,7 +58,7 @@ function App() {
 
       <div className="notes-list">
         {notes.map((note) => (
-          <div key={note._id} className="note-card">
+          <div key={note._id} className="note-card ">
             <h3>{note.title}</h3>
             <p>{note.content}</p>
             <button onClick={() => deleteNote(note._id)}>Delete</button>
