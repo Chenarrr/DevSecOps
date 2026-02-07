@@ -10,16 +10,16 @@ function App() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
-  // Load notes when app starts
-  useEffect(() => {
-    getNotes()
-  }, [])
-
   // Get all notes from API
   const getNotes = async () => {
     const response = await axios.get(`${API_URL}/notes`)
     setNotes(response.data)
   }
+
+  // Load notes when app starts
+  useEffect(() => {
+    getNotes()
+  }, [])
 
   // Add a new note
   const addNote = async (e) => {
