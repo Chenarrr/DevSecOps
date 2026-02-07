@@ -17,9 +17,8 @@ function App() {
   }
 
   // Load notes when app starts
-  useEffect(() => {
-    getNotes()
-  }, [])
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { getNotes() }, [])
 
   // Add a new note
   const addNote = async (e) => {
