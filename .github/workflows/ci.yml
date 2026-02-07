@@ -60,6 +60,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Set short SHA
+        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
       - uses: docker/setup-buildx-action@v3
 
       - uses: docker/login-action@v3
@@ -75,7 +78,7 @@ jobs:
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/devops:frontend
-            ${{ secrets.DOCKERHUB_USERNAME }}/devops:frontend-${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/devops:frontend-${{ env.SHORT_SHA }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -86,7 +89,7 @@ jobs:
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/devops:backend
-            ${{ secrets.DOCKERHUB_USERNAME }}/devops:backend-${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/devops:backend-${{ env.SHORT_SHA }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -105,17 +108,20 @@ jobs:
           repository: Chenarrr/k8s-Infra-
           token: ${{ secrets.GIT_TOKEN }}
 
+      - name: Set short SHA
+        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
       - name: Update image tags
         run: |
-          sed -i "s|image: chenarrr/devops:frontend.*|image: chenarrr/devops:frontend-${{ github.sha }}|" frontend-deployment.yaml
-          sed -i "s|image: chenarrr/devops:backend.*|image: chenarrr/devops:backend-${{ github.sha }}|" backend-deployment.yaml
+          sed -i "s|image: chenarrr/devops:frontend.*|image: chenarrr/devops:frontend-${{ env.SHORT_SHA }}|" frontend-deployment.yaml
+          sed -i "s|image: chenarrr/devops:backend.*|image: chenarrr/devops:backend-${{ env.SHORT_SHA }}|" backend-deployment.yaml
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "update images to ${{ github.sha }}"
+          git commit -m "update images to ${{ env.SHORT_SHA }}"
           git push
 
 
