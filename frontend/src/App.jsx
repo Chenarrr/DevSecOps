@@ -37,7 +37,10 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Notes App</h1>
+      <header className="app-header">
+        <h1>Notes</h1>
+        <p>Capture your thoughts</p>
+      </header>
 
       <form onSubmit={addNote} className="note-form">
         <input
@@ -48,7 +51,7 @@ function App() {
           required
         />
         <textarea
-          placeholder="Content here..."
+          placeholder="Write something..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
@@ -56,15 +59,30 @@ function App() {
         <button type="submit">Add Note</button>
       </form>
 
-      <div className="notes-list">
-        {notes.map((note) => (
-          <div key={note._id} className="note-card ">
-            <h3>{note.title}</h3>
-            <p>{note.content}</p>
-            <button onClick={() => deleteNote(note._id)}>Delete</button>
-          </div>
-        ))}
-      </div>
+      {notes.length > 0 && (
+        <div className="notes-section-header">
+          <h2>Your Notes</h2>
+          <span className="note-count">{notes.length}</span>
+        </div>
+      )}
+
+      {notes.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-icon">&#9998;</div>
+          <h3>No notes yet</h3>
+          <p>Create your first note above</p>
+        </div>
+      ) : (
+        <div className="notes-list">
+          {notes.map((note) => (
+            <div key={note._id} className="note-card">
+              <h3>{note.title}</h3>
+              <p>{note.content}</p>
+              <button onClick={() => deleteNote(note._id)}>Delete</button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
