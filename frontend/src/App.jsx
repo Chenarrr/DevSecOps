@@ -9,6 +9,9 @@ function App() {
   const [notes, setNotes] = useState([])
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [editingId, setEditingId] = useState(null)
+  const [editTitle, setEditTitle] = useState('')
+  const [editContent, setEditContent] = useState('')
 
   // Get all notes from API
   const getNotes = async () => {
@@ -27,6 +30,30 @@ function App() {
     setTitle('')
     setContent('')
     getNotes()
+  }
+
+  // Start editing a note
+  const startEdit = (note) => {
+    setEditingId(note._id)
+    setEditTitle(note.title)
+    setEditContent(note.content)
+  }
+
+  // Save edited note
+  const updateNote = async (e) => {
+    e.preventDefault()
+    await axios.put(`${API_URL}/notes/${editingId}`, { title: editTitle, content: editContent })
+    setEditingId(null)
+    setEditTitle('')
+    setEditContent('')
+    getNotes()
+  }
+
+  // Cancel editing
+  const cancelEdit = () => {
+    setEditingId(null)
+    setEditTitle('')
+    setEditContent('')
   }
 
   // Delete a note
@@ -51,7 +78,7 @@ function App() {
           required
         />
         <textarea
-          placeholder="Write something..."
+          placeholder="Write something here..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
@@ -75,10 +102,35 @@ function App() {
       ) : (
         <div className="notes-list">
           {notes.map((note) => (
-            <div key={note._id} className="note-card">
-              <h3>{note.title}</h3>
-              <p>{note.content}</p>
-              <button onClick={() => deleteNote(note._id)}>Delete</button>
+            <div key={note._id} className={`note-card${editingId === note._id ? ' editing' : ''}`}>
+              {editingId === note._id ? (
+                <form onSubmit={updateNote} className="edit-form">
+                  <input
+                    type="text"
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    required
+                  />
+                  <textarea
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    required
+                  />
+                  <div className="edit-actions">
+                    <button type="submit" className="save-btn">Save</button>
+                    <button type="button" className="cancel-btn" onClick={cancelEdit}>Cancel</button>
+                  </div>
+                </form>
+              ) : (
+                <>
+                  <h3>{note.title}</h3>
+                  <p>{note.content}</p>
+                  <div className="card-actions">
+                    <button className="edit-btn" onClick={() => startEdit(note)}>Edit</button>
+                    <button className="delete-btn" onClick={() => deleteNote(note._id)}>Delete</button>
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>

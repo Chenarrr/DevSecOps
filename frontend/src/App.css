@@ -165,8 +165,12 @@
   flex: 1;
 }
 
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
 .note-card button {
-  align-self: flex-start;
   background: transparent;
   color: #71717a;
   padding: 6px 14px;
@@ -179,10 +183,98 @@
   transition: color 0.2s, border-color 0.2s, background 0.2s;
 }
 
-.note-card button:hover {
+.note-card .edit-btn:hover {
+  color: #818cf8;
+  border-color: #818cf8;
+  background: rgba(129, 140, 248, 0.08);
+}
+
+.note-card .delete-btn:hover {
   color: #ef4444;
   border-color: #ef4444;
   background: rgba(239, 68, 68, 0.08);
+}
+
+/* ── Edit Mode ───────────────────────────────── */
+
+.note-card.editing {
+  border-color: #6366f1;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-form input,
+.edit-form textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  background: #0f0f13;
+  color: #e4e4e7;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.edit-form input:focus,
+.edit-form textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.edit-form input {
+  font-weight: 600;
+}
+
+.edit-form textarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-actions .save-btn {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.edit-actions .save-btn:hover {
+  opacity: 0.9;
+}
+
+.edit-actions .cancel-btn {
+  background: transparent;
+  color: #71717a;
+  border: 1px solid #27272a;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.edit-actions .cancel-btn:hover {
+  color: #a1a1aa;
+  border-color: #3f3f46;
 }
 
 /* ── Empty State ──────────────────────────────── */

@@ -26,6 +26,11 @@ app.post('/api/notes', async (req, res) => {
   res.json(note)
 })
 
+app.put('/api/notes/:id', async (req, res) => {
+  const note = await Note.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  res.json(note)
+})
+
 app.delete('/api/notes/:id', async (req, res) => {
   await Note.findByIdAndDelete(req.params.id)
   res.json({ message: 'Deleted' })
