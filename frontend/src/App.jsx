@@ -120,7 +120,7 @@ function App() {
     <div className="App">
       <header className="app-header">
         <h1>Notes</h1>
-        <p>Capture your thoughts ✨</p>
+        <p>Your personal note space ✨</p>
       </header>
 
       <div className="search-bar">
