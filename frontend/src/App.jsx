@@ -216,7 +216,7 @@ function App() {
                   />
                   <input
                     type="text"
-                    placeholder="Tags (comma separated)"
+                    placeholder="Tags"
                     value={editTags}
                     onChange={(e) => setEditTags(e.target.value)}
                   />
