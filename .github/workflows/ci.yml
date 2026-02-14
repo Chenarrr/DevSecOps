@@ -113,8 +113,8 @@ jobs:
 
       - name: Update image tags
         run: |
-          sed -i "s|image: chenarrr/devops:frontend.*|image: chenarrr/devops:frontend-${{ env.SHORT_SHA }}|" frontend/frontend-deployment.yaml
-          sed -i "s|image: chenarrr/devops:backend.*|image: chenarrr/devops:backend-${{ env.SHORT_SHA }}|" backend/backend-deployment.yaml
+          sed -i "s|image: chenarrr/devops:frontend.*|image: chenarrr/devops:frontend-${{ env.SHORT_SHA }}
+          sed -i "s|image: chenarrr/devops:backend.*|image: chenarrr/devops:backend-${{ env.SHORT_SHA }}
 
       - name: Commit and push
         run: |
