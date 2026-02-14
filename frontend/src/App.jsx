@@ -157,7 +157,7 @@ function App() {
         />
         <input
           type="text"
-          placeholder="Tags (comma separated)"
+          placeholder="Tags"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
         />
