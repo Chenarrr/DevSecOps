@@ -111,10 +111,10 @@ jobs:
       - name: Set short SHA
         run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
-      - name: Update image tags
+      - name: Update image tags in Helm values
         run: |
-          sed -i "s|image: chenarrr/devops:frontend.*|image: chenarrr/devops:frontend-${{ env.SHORT_SHA }}|" app/frontend/frontend-deployment.yaml
-          sed -i "s|image: chenarrr/devops:backend.*|image: chenarrr/devops:backend-${{ env.SHORT_SHA }}|" app/backend-deployment.yaml
+          sed -i "s|tag: frontend-.*|tag: frontend-${{ env.SHORT_SHA }}|" charts/notes-app/values.yaml
+          sed -i "s|tag: backend-.*|tag: backend-${{ env.SHORT_SHA }}|" charts/notes-app/values.yaml
 
       - name: Commit and push
         run: |
