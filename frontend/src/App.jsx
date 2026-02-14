@@ -150,7 +150,7 @@ function App() {
           required
         />
         <textarea
-          placeholder="Write something here... (supports **markdown**)"
+          placeholder="Write something here..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
