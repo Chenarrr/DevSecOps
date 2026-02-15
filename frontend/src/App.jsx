@@ -36,6 +36,10 @@ function App() {
   const [activeTag, setActiveTag] = useState(null)
   const [searchInput, setSearchInput] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode')
+    return saved !== null ? JSON.parse(saved) : false
+  })
   const searchTimeout = useRef(null)
 
   const getNotes = async () => {
@@ -53,6 +57,15 @@ function App() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { getNotes(); getTags() }, [activeTag, searchQuery])
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode))
+    document.documentElement.classList.toggle('dark', darkMode)
+  }, [darkMode])
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode)
+  }
 
   const handleSearch = (value) => {
     setSearchInput(value)
@@ -119,8 +132,19 @@ function App() {
   return (
     <div className="App">
       <header className="app-header">
-        <h1>Notes</h1>
-        <p>Your personal note space ✨</p>
+        <div className="header-content">
+          <div className="header-text">
+            <h1>Notes</h1>
+            <p>Your personal note space ✨</p>
+          </div>
+          <button 
+            className="dark-mode-toggle"
+            onClick={toggleDarkMode}
+            title={`Switch to ${darkMode ? 'light' : 'dark'} mode`}
+          >
+            {darkMode ? '☀️' : '🌙'}
+          </button>
+        </div>
       </header>
 
       <div className="search-bar">

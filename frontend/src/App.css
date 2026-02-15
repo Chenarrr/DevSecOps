@@ -11,6 +11,39 @@
   margin-bottom: 40px;
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.header-text {
+  flex: 1;
+}
+
+.dark-mode-toggle {
+  background: transparent;
+  border: 1px solid #27272a;
+  color: #71717a;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+}
+
+.dark-mode-toggle:hover {
+  color: #a1a1aa;
+  border-color: #3f3f46;
+  transform: scale(1.05);
+}
+
 .app-header h1 {
   font-size: 2rem;
   font-weight: 700;
@@ -548,4 +581,178 @@
   .notes-list {
     grid-template-columns: 1fr;
   }
+
+  .header-content {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+/* ── Light Mode ───────────────────────────────── */
+
+:root:not(.dark) {
+  background-color: #f8fafc;
+}
+
+:root:not(.dark) body {
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+:root:not(.dark) .app-header p {
+  color: #64748b;
+}
+
+:root:not(.dark) .dark-mode-toggle {
+  border-color: #e2e8f0;
+  color: #64748b;
+}
+
+:root:not(.dark) .dark-mode-toggle:hover {
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
+:root:not(.dark) .search-input {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  color: #1e293b;
+}
+
+:root:not(.dark) .search-input::placeholder {
+  color: #94a3b8;
+}
+
+:root:not(.dark) .search-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+:root:not(.dark) .search-clear {
+  color: #94a3b8;
+}
+
+:root:not(.dark) .search-clear:hover {
+  color: #64748b;
+}
+
+:root:not(.dark) .note-form {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+:root:not(.dark) .note-form input,
+:root:not(.dark) .note-form textarea {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #1e293b;
+}
+
+:root:not(.dark) .note-form input::placeholder,
+:root:not(.dark) .note-form textarea::placeholder {
+  color: #94a3b8;
+}
+
+:root:not(.dark) .notes-section-header h2 {
+  color: #475569;
+}
+
+:root:not(.dark) .note-count {
+  color: #64748b;
+  background: #e2e8f0;
+}
+
+:root:not(.dark) .tag-filter-btn {
+  background: #ffffff;
+  color: #64748b;
+  border-color: #e2e8f0;
+}
+
+:root:not(.dark) .tag-filter-btn:hover {
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
+:root:not(.dark) .note-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+:root:not(.dark) .note-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+:root:not(.dark) .note-card.pinned {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(129, 140, 248, 0.03));
+}
+
+:root:not(.dark) .note-card h3 {
+  color: #1e293b;
+}
+
+:root:not(.dark) .note-timestamp {
+  color: #94a3b8;
+}
+
+:root:not(.dark) .note-content-md {
+  color: #475569;
+}
+
+:root:not(.dark) .note-content-md h1,
+:root:not(.dark) .note-content-md h2,
+:root:not(.dark) .note-content-md h3 {
+  color: #1e293b;
+}
+
+:root:not(.dark) .note-content-md strong {
+  color: #1e293b;
+}
+
+:root:not(.dark) .note-content-md code {
+  background: #e2e8f0;
+  color: #7c3aed;
+}
+
+:root:not(.dark) .note-content-md pre {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+:root:not(.dark) .note-content-md blockquote {
+  color: #64748b;
+}
+
+:root:not(.dark) .note-content-md hr {
+  border-color: #e2e8f0;
+}
+
+:root:not(.dark) .note-card button {
+  color: #64748b;
+  border-color: #e2e8f0;
+}
+
+:root:not(.dark) .edit-form input,
+:root:not(.dark) .edit-form textarea {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #1e293b;
+}
+
+:root:not(.dark) .edit-actions .cancel-btn {
+  color: #64748b;
+  border-color: #e2e8f0;
+}
+
+:root:not(.dark) .edit-actions .cancel-btn:hover {
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
+:root:not(.dark) .empty-state {
+  color: #94a3b8;
+}
+
+:root:not(.dark) .empty-state h3 {
+  color: #64748b;
 }
