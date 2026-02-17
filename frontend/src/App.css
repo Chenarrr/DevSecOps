@@ -2,6 +2,14 @@
   max-width: 720px;
   margin: 0 auto;
   padding: 40px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.enhanced-bg {
+  background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+  min-height: 100vh;
+  box-shadow: 0 0 60px 0 rgba(99,102,241,0.08);
 }
 
 /* ── Header ───────────────────────────────────── */
@@ -110,20 +118,32 @@
 
 /* ── Form ─────────────────────────────────────── */
 
-.note-form {
+.note-card {
   background: #18181b;
-  padding: 24px;
-  border-radius: 16px;
-  margin-bottom: 32px;
+  padding: 20px;
+  border-radius: 18px;
   border: 1px solid #27272a;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 24px 0 rgba(129,140,248,0.12);
+  animation: fadeInCard 0.5s cubic-bezier(.4,0,.2,1);
+}
+.note-card.modern-card {
+  background: rgba(24,24,27,0.98);
+  border: 1.5px solid #6366f1;
+  box-shadow: 0 8px 32px 0 rgba(99,102,241,0.13);
+}
+.note-card.modern-card:hover {
+  border-color: #a78bfa;
+  box-shadow: 0 12px 40px 0 rgba(129,140,248,0.18);
+  transform: translateY(-4px) scale(1.02);
 }
 
-.note-form:focus-within {
-  border-color: #6366f1;
+@keyframes fadeInCard {
+  0% { opacity: 0; transform: translateY(16px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
-
-.note-form input,
 .note-form textarea {
   width: 100%;
   padding: 12px 16px;

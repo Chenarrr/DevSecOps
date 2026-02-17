@@ -130,7 +130,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App enhanced-bg">
       <header className="app-header">
         <div className="header-content">
           <div className="header-text">
@@ -181,11 +181,11 @@ function App() {
         />
         <input
           type="text"
-          placeholder="Tags"
+          placeholder="Tags (comma separated)"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
         />
-        <button type="submit">Add Note</button>
+        <button type="submit" className="add-btn">Add Note</button>
       </form>
 
       {notes.length > 0 && (
@@ -224,7 +224,7 @@ function App() {
       ) : (
         <div className="notes-list">
           {notes.map((note) => (
-            <div key={note._id} className={`note-card${editingId === note._id ? ' editing' : ''}${note.pinned ? ' pinned' : ''}`}>
+            <div key={note._id} className={`note-card modern-card${editingId === note._id ? ' editing' : ''}${note.pinned ? ' pinned' : ''}`}> 
               {editingId === note._id ? (
                 <form onSubmit={updateNote} className="edit-form">
                   <input
@@ -240,7 +240,7 @@ function App() {
                   />
                   <input
                     type="text"
-                    placeholder="Tags"
+                    placeholder="Tags (comma separated)"
                     value={editTags}
                     onChange={(e) => setEditTags(e.target.value)}
                   />
