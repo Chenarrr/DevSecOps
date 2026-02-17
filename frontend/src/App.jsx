@@ -16,10 +16,12 @@ function timeAgo(dateString) {
     { label: 'hour', seconds: 3600 },
     { label: 'minute', seconds: 60 },
   ]
-  for (const { label, seconds: s } of intervals) {
-    const count = Math.floor(seconds / s)
+
+  for (const { label, seconds: span } of intervals) {
+    const count = Math.floor(seconds / span)
     if (count >= 1) return `${count} ${label}${count > 1 ? 's' : ''} ago`
   }
+
   return 'just now'
 }
 
@@ -63,10 +65,6 @@ function App() {
     document.documentElement.classList.toggle('dark', darkMode)
   }, [darkMode])
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
-  }
-
   const handleSearch = (value) => {
     setSearchInput(value)
     clearTimeout(searchTimeout.current)
@@ -77,7 +75,7 @@ function App() {
 
   const addNote = async (e) => {
     e.preventDefault()
-    const tagArray = tags.split(',').map(t => t.trim()).filter(Boolean)
+    const tagArray = tags.split(',').map((tag) => tag.trim()).filter(Boolean)
     await axios.post(`${API_URL}/notes`, { title, content, tags: tagArray })
     setTitle('')
     setContent('')
@@ -95,9 +93,11 @@ function App() {
 
   const updateNote = async (e) => {
     e.preventDefault()
-    const tagArray = editTags.split(',').map(t => t.trim()).filter(Boolean)
+    const tagArray = editTags.split(',').map((tag) => tag.trim()).filter(Boolean)
     await axios.put(`${API_URL}/notes/${editingId}`, {
-      title: editTitle, content: editContent, tags: tagArray
+      title: editTitle,
+      content: editContent,
+      tags: tagArray,
     })
     setEditingId(null)
     setEditTitle('')
@@ -130,162 +130,179 @@ function App() {
   }
 
   return (
-    <div className="App enhanced-bg">
-      <header className="app-header">
-        <div className="header-content">
+    <div className="App">
+      <main className="app-shell">
+        <header className="app-header">
           <div className="header-text">
             <h1>Notes</h1>
-            <p>Your personal note space ✨</p>
+            <p>Minimal space for your ideas.</p>
           </div>
-          <button 
+          <button
             className="dark-mode-toggle"
-            onClick={toggleDarkMode}
+            onClick={() => setDarkMode(!darkMode)}
             title={`Switch to ${darkMode ? 'light' : 'dark'} mode`}
           >
-            {darkMode ? '☀️' : '🌙'}
+            {darkMode ? 'Light' : 'Dark'}
           </button>
-        </div>
-      </header>
+        </header>
 
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search notes..."
-          value={searchInput}
-          onChange={(e) => handleSearch(e.target.value)}
-          className="search-input"
-        />
-        {searchInput && (
-          <button
-            className="search-clear"
-            onClick={() => { setSearchInput(''); setSearchQuery('') }}
-          >
-            &times;
-          </button>
-        )}
-      </div>
-
-      <form onSubmit={addNote} className="note-form">
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        <textarea
-          placeholder="Write something here..."
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Tags (comma separated)"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-        />
-        <button type="submit" className="add-btn">Add Note</button>
-      </form>
-
-      {notes.length > 0 && (
-        <div className="notes-section-header">
-          <h2>Your Notes</h2>
-          <span className="note-count">{notes.length}</span>
-        </div>
-      )}
-
-      {allTags.length > 0 && (
-        <div className="tag-filter-bar">
-          <button
-            className={`tag-filter-btn${activeTag === null ? ' active' : ''}`}
-            onClick={() => setActiveTag(null)}
-          >
-            All
-          </button>
-          {allTags.map((tag) => (
+        <div className="search-bar panel">
+          <input
+            type="text"
+            placeholder="Search notes"
+            value={searchInput}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="search-input"
+          />
+          {searchInput && (
             <button
-              key={tag}
-              className={`tag-filter-btn${activeTag === tag ? ' active' : ''}`}
-              onClick={() => filterByTag(tag)}
+              className="search-clear"
+              onClick={() => {
+                setSearchInput('')
+                setSearchQuery('')
+              }}
+              type="button"
             >
-              {tag}
+              Clear
             </button>
-          ))}
+          )}
         </div>
-      )}
 
-      {notes.length === 0 ? (
-        <div className="empty-state">
-          <div className="empty-icon">{searchQuery || activeTag ? '\u{1F50D}' : '\u270E'}</div>
-          <h3>{searchQuery || activeTag ? 'No matching notes' : 'No notes yet'}</h3>
-          <p>{searchQuery || activeTag ? 'Try a different search or filter' : 'Create your first note above'}</p>
-        </div>
-      ) : (
-        <div className="notes-list">
-          {notes.map((note) => (
-            <div key={note._id} className={`note-card modern-card${editingId === note._id ? ' editing' : ''}${note.pinned ? ' pinned' : ''}`}> 
-              {editingId === note._id ? (
-                <form onSubmit={updateNote} className="edit-form">
-                  <input
-                    type="text"
-                    value={editTitle}
-                    onChange={(e) => setEditTitle(e.target.value)}
-                    required
-                  />
-                  <textarea
-                    value={editContent}
-                    onChange={(e) => setEditContent(e.target.value)}
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder="Tags (comma separated)"
-                    value={editTags}
-                    onChange={(e) => setEditTags(e.target.value)}
-                  />
-                  <div className="edit-actions">
-                    <button type="submit" className="save-btn">Save</button>
-                    <button type="button" className="cancel-btn" onClick={cancelEdit}>Cancel</button>
-                  </div>
-                </form>
-              ) : (
-                <>
-                  {note.pinned && <div className="pin-badge">Pinned</div>}
-                  <h3>{note.title}</h3>
-                  <span className="note-timestamp">
-                    {note.updatedAt && note.updatedAt !== note.createdAt
-                      ? `Updated ${timeAgo(note.updatedAt)}`
-                      : timeAgo(note.createdAt)}
-                  </span>
-                  {note.tags && note.tags.length > 0 && (
-                    <div className="note-tags">
-                      {note.tags.map((tag) => (
-                        <span key={tag} className="tag-pill" onClick={() => filterByTag(tag)}>
-                          {tag}
-                        </span>
-                      ))}
+        <form onSubmit={addNote} className="note-form panel">
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+          <textarea
+            placeholder="Write your note"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Tags, comma separated"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+          />
+          <button type="submit" className="add-btn">Save note</button>
+        </form>
+
+        {allTags.length > 0 && (
+          <div className="tag-filter-bar panel">
+            <button
+              className={`tag-filter-btn${activeTag === null ? ' active' : ''}`}
+              onClick={() => setActiveTag(null)}
+              type="button"
+            >
+              All
+            </button>
+            {allTags.map((tag) => (
+              <button
+                key={tag}
+                className={`tag-filter-btn${activeTag === tag ? ' active' : ''}`}
+                onClick={() => filterByTag(tag)}
+                type="button"
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {notes.length > 0 && (
+          <div className="notes-section-header">
+            <h2>{activeTag ? `Filtered by ${activeTag}` : 'All notes'}</h2>
+            <span className="note-count">{notes.length}</span>
+          </div>
+        )}
+
+        {notes.length === 0 ? (
+          <div className="empty-state panel">
+            <h3>{searchQuery || activeTag ? 'No matching notes' : 'No notes yet'}</h3>
+            <p>{searchQuery || activeTag ? 'Try a different search or filter.' : 'Create your first note using the form above.'}</p>
+          </div>
+        ) : (
+          <div className="notes-list">
+            {notes.map((note) => (
+              <article
+                key={note._id}
+                className={`note-card${editingId === note._id ? ' editing' : ''}${note.pinned ? ' pinned' : ''}`}
+              >
+                {editingId === note._id ? (
+                  <form onSubmit={updateNote} className="edit-form">
+                    <input
+                      type="text"
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      required
+                    />
+                    <textarea
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="Tags, comma separated"
+                      value={editTags}
+                      onChange={(e) => setEditTags(e.target.value)}
+                    />
+                    <div className="edit-actions">
+                      <button type="submit" className="save-btn">Save</button>
+                      <button type="button" className="cancel-btn" onClick={cancelEdit}>Cancel</button>
                     </div>
-                  )}
-                  <div className="note-content-md">
-                    <ReactMarkdown>{note.content}</ReactMarkdown>
-                  </div>
-                  <div className="card-actions">
-                    <button
-                      className={`pin-btn${note.pinned ? ' pinned' : ''}`}
-                      onClick={() => togglePin(note._id)}
-                    >
-                      {note.pinned ? 'Unpin' : 'Pin'}
-                    </button>
-                    <button className="edit-btn" onClick={() => startEdit(note)}>Edit</button>
-                    <button className="delete-btn" onClick={() => deleteNote(note._id)}>Delete</button>
-                  </div>
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+                  </form>
+                ) : (
+                  <>
+                    {note.pinned && <span className="pin-badge">Pinned</span>}
+                    <h3>{note.title}</h3>
+                    <span className="note-timestamp">
+                      {note.updatedAt && note.updatedAt !== note.createdAt
+                        ? `Updated ${timeAgo(note.updatedAt)}`
+                        : timeAgo(note.createdAt)}
+                    </span>
+
+                    {note.tags && note.tags.length > 0 && (
+                      <div className="note-tags">
+                        {note.tags.map((tag) => (
+                          <button
+                            key={tag}
+                            className="tag-pill"
+                            onClick={() => filterByTag(tag)}
+                            type="button"
+                          >
+                            {tag}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="note-content-md">
+                      <ReactMarkdown>{note.content}</ReactMarkdown>
+                    </div>
+
+                    <div className="card-actions">
+                      <button
+                        className={`pin-btn${note.pinned ? ' pinned' : ''}`}
+                        onClick={() => togglePin(note._id)}
+                        type="button"
+                      >
+                        {note.pinned ? 'Unpin' : 'Pin'}
+                      </button>
+                      <button className="edit-btn" onClick={() => startEdit(note)} type="button">Edit</button>
+                      <button className="delete-btn" onClick={() => deleteNote(note._id)} type="button">Delete</button>
+                    </div>
+                  </>
+                )}
+              </article>
+            ))}
+          </div>
+        )}
+      </main>
     </div>
   )
 }
